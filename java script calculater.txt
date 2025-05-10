@@ -1,0 +1,104 @@
+const calculator = document.querySelector('.calculator');
+const keys = calculator.querySelector('.calculator-keys');
+const display = calculator.querySelector('.calculator-screen');
+
+let firstOperand = null;
+let operator = null;
+let waitingForSecondOperand = false;
+
+keys.addEventListener('click', (event) => {
+    const { target } = event;
+
+    // If the clicked element is not a button, do nothing
+    if (!target.matches('button')) {
+        return;
+    }
+
+    // Handle number clicks
+    if (target.classList.contains('operator')) {
+        handleOperator(target.value);
+        return;
+    }
+
+    // Handle decimal click
+    if (target.classList.contains('decimal')) {
+        inputDecimal(target.value);
+        return;
+    }
+
+    // Handle all-clear click
+    if (target.classList.contains('all-clear')) {
+        resetCalculator();
+        updateDisplay();
+        return;
+    }
+
+    // Handle number clicks
+    inputDigit(target.value);
+    updateDisplay();
+});
+
+function inputDigit(digit) {
+    const currentValue = display.value;
+
+    if (waitingForSecondOperand === true) {
+        display.value = digit;
+        waitingForSecondOperand = false;
+    } else {
+        display.value = currentValue === '0' ? digit : currentValue + digit;
+    }
+}
+
+function inputDecimal(dot) {
+    // Prevent adding multiple decimals
+    if (!display.value.includes(dot)) {
+        display.value += dot;
+    }
+}
+
+function handleOperator(nextOperator) {
+    const inputValue = parseFloat(display.value);
+
+    if (operator && waitingForSecondOperand) {
+        operator = nextOperator;
+        return;
+    }
+
+    if (firstOperand === null && !isNaN(inputValue)) {
+        firstOperand = inputValue;
+    } else if (operator) {
+        const result = performCalculation[operator](firstOperand, inputValue);
+
+        display.value = String(result);
+        firstOperand = result;
+    }
+
+    waitingForSecondOperand = true;
+    operator = nextOperator;
+}
+
+const performCalculation = {
+    '/': (firstOperand, secondOperand) => firstOperand / secondOperand,
+    '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
+    '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
+    '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
+    '=': (firstOperand, secondOperand) => secondOperand
+};
+
+function resetCalculator() {
+    display.value = '0';
+    firstOperand = null;
+    operator = null;
+    waitingForSecondOperand = false;
+}
+
+function updateDisplay() {
+    // The display is updated within the inputDigit and handleOperator functions
+    // This function is primarily used to ensure '0' is displayed initially or after reset
+    if (display.value === '') {
+        display.value = '0';
+    }
+}
+
+// Initial display update
+updateDisplay();

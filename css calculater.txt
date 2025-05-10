@@ -1,0 +1,102 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    display: flex; /* Center the calculator */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Ensure body takes at least full viewport height */
+}
+
+.calculator {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px; /* Fixed width for the calculator */
+    background-color: #222; /* Dark background */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    overflow: hidden; /* Ensure rounded corners are applied */
+}
+
+.calculator-screen {
+    width: 100%;
+    font-size: 2.5rem;
+    height: 60px;
+    border: none;
+    background-color: #333; /* Darker screen background */
+    color: #fff; /* White text */
+    text-align: right;
+    padding: 10px 20px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns of equal width */
+    grid-gap: 1px; /* Small gap between buttons */
+    padding: 1px; /* Padding around the grid */
+}
+
+button {
+    height: 60px;
+    background-color: #444; /* Dark gray button background */
+    border: none;
+    font-size: 1.5rem;
+    color: #fff; /* White text */
+    cursor: pointer; /* Show a pointer cursor on hover */
+    transition: background-color 0.1s ease; /* Smooth transition on hover */
+}
+
+button:hover {
+    background-color: #555; /* Slightly lighter on hover */
+}
+
+.operator {
+    background-color: #f39c12; /* Orange for operators */
+    color: #fff;
+}
+
+.operator:hover {
+    background-color: #e08e0b;
+}
+
+.all-clear {
+    background-color: #c0392b; /* Red for All Clear */
+    color: #fff;
+}
+
+.all-clear:hover {
+    background-color: #a93226;
+}
+
+.equal-sign {
+    background-color: #27ae60; /* Green for Equal */
+    grid-column: span 2; /* Make the equal sign span two columns */
+}
+
+.equal-sign:hover {
+    background-color: #229954;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 400px) {
+    .calculator {
+        width: 95%; /* Make calculator width responsive */
+    }
+
+    .calculator-screen {
+        font-size: 2rem;
+    }
+
+    button {
+        font-size: 1.2rem;
+    }
+}
